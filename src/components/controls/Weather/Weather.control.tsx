@@ -5,10 +5,10 @@ import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 
-import getSpokaneWeather from "../services/weather/weatherService";
+import getSpokaneWeather from "../../../services/weather/weather.service";
 import { useEffect, useState } from "react";
 
-import WeatherResponseInterface from "../services/weather/weatherService.response";
+import { WeatherResponseInterface } from "../../../services/weather/WeatherResponse.interface";
 
 const useStyles = makeStyles({
   root: {

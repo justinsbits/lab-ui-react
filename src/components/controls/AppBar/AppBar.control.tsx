@@ -24,8 +24,9 @@ import MailIcon from "@material-ui/icons/Mail";
 import Button from "@material-ui/core/Button";
 //import "@fontsource/roboto";
 
-import WeatherComponent from "./weather.component";
-
+import WeatherComponent from "../Weather/Weather.control";
+import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
+import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -90,17 +91,35 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function PersistentDrawerLeft() {
+export function AppBarControl() {
   const classes = useStyles();
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [signInDialogOpen, setsignInDialogOpen] = React.useState(false);
+  const [signUpDialogOpen, setsignUpDialogOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
-    setOpen(true);
+    setDrawerOpen(true);
   };
 
   const handleDrawerClose = () => {
-    setOpen(false);
+    setDrawerOpen(false);
+  };
+
+  const handleSignInDialogOpen = () => {
+    setsignInDialogOpen(true);
+  };
+
+  const handleSignInDialogClose = () => {
+    setsignInDialogOpen(false);
+  };
+
+  const handleSignUpDialogOpen = () => {
+    setsignUpDialogOpen(true);
+  };
+
+  const handleSignUpDialogClose = () => {
+    setsignUpDialogOpen(false);
   };
 
   return (
@@ -109,7 +128,7 @@ export default function PersistentDrawerLeft() {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: drawerOpen,
         })}
       >
         <Toolbar>
@@ -118,19 +137,24 @@ export default function PersistentDrawerLeft() {
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
+            className={clsx(classes.menuButton, drawerOpen && classes.hide)}
           >
             <MenuIcon />
           </IconButton>
           <div className={classes.appBarGrow} />
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={handleSignUpDialogOpen}>
+            SIGN UP
+          </Button>
+          <Button color="inherit" onClick={handleSignInDialogOpen}>
+            SIGN IN
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
         className={classes.drawer}
         variant="persistent"
         anchor="left"
-        open={open}
+        open={drawerOpen}
         classes={{
           paper: classes.drawerPaper,
         }}
@@ -169,10 +193,18 @@ export default function PersistentDrawerLeft() {
       </Drawer>
       <main
         className={clsx(classes.content, {
-          [classes.contentShift]: open,
+          [classes.contentShift]: drawerOpen,
         })}
       >
         <div className={classes.drawerHeader} />
+        <SignInDialog
+          open={signInDialogOpen}
+          onClose={handleSignInDialogClose}
+        />
+        <SignUpDialog
+          open={signUpDialogOpen}
+          onClose={handleSignUpDialogClose}
+        />
         <WeatherComponent />
       </main>
     </div>

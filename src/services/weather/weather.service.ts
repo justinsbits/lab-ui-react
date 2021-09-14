@@ -1,7 +1,8 @@
-import WeatherResponseInterface, {
-  apiWeatherResponseInterface,
+import {
+  WeatherResponseInterface,
+  APIWeatherResponseInterface,
   WeatherResponse,
-} from "./weatherService.response";
+} from "./WeatherResponse.interface";
 import { httpRequest } from "../../tools/apiCall";
 
 export default async function getSpokaneWeather(setResponse: any) {
@@ -15,7 +16,7 @@ export default async function getSpokaneWeather(setResponse: any) {
     const content = await httpRequest(baseWeatherUri + query + key);
     weatherInfo = new WeatherResponse(
       null,
-      content as apiWeatherResponseInterface
+      content as APIWeatherResponseInterface
     );
     setResponse(weatherInfo);
   } catch (err) {
