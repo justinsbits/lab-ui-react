@@ -25,6 +25,7 @@ import { AuthProviderList } from "../../controls/AuthProviderList/AuthProviderLi
 //import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import AuthenticationService from "../../../services/authentication/Authentication.service";
 
 const theme = createTheme();
 const styles = (theme: Theme) =>
@@ -59,7 +60,6 @@ function SignInDialog(props: SignInDialogProps) {
   const classes = useStyles(theme);
   const { open, onClose } = props;
 
-  // const signIn = () => {};
   function signInWithAuthProvider(provider: any) {}
 
   const PasswordSchema = yup.object().shape({
@@ -82,6 +82,7 @@ function SignInDialog(props: SignInDialogProps) {
     validateOnChange: true,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
+      AuthenticationService.signIn(formik.values.email, formik.values.password);
     },
   });
 
@@ -154,21 +155,11 @@ function SignInDialog(props: SignInDialogProps) {
         </DialogContent>
 
         <DialogActions>
-          <Button
-            color="primary"
-            //       disabled={!emailAddressState}
-            variant="outlined"
-            //   onClick={this.resetPassword}
-          >
+          <Button color="primary" variant="outlined">
             Reset password
           </Button>
 
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            // onClick={signIn}
-          >
+          <Button type="submit" color="primary" variant="contained">
             Sign in
           </Button>
         </DialogActions>

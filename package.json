@@ -30,6 +30,9 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:dev": "cross-env REACT_APP_API_URL=http://localhost:3001 react-scripts start",
+    "prestart:mockAPI": "node tools/mock/api/apiServerMockData.prep.js",
+    "start:mockAPI": "node tools/mock/api/apiServer.mock.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -54,6 +57,8 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.8",
-    "@types/redux-logger": "^3.0.9"
+    "@types/redux-logger": "^3.0.9",
+    "cross-env": "^7.0.3",
+    "json-server": "^0.16.3"
   }
 }

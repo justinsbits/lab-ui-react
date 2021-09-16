@@ -9,6 +9,7 @@ import getSpokaneWeather from "../../../services/weather/weather.service";
 import { useEffect, useState } from "react";
 
 import { WeatherResponseInterface } from "../../../services/weather/WeatherResponse.interface";
+import { LoadingControl } from "../Loading.tsx/Loading.control";
 
 const useStyles = makeStyles({
   root: {
@@ -50,16 +51,21 @@ function setWeatherUI(
 export default function SimpleCard() {
   const [spokaneWeather, setSpokaneWeather] =
     useState<WeatherResponseInterface>();
+  const [loadingState, setLoadingState] = useState(true);
+  const classes = useStyles();
 
   useEffect(() => {
     try {
       getSpokaneWeather(setSpokaneWeather);
     } catch (err) {
       console.log("useEffect:" + err);
+    } finally {
+      setLoadingState(false);
     }
   }, []);
 
-  const classes = useStyles();
+  if (loadingState) return <LoadingControl />;
+
   return (
     <Card className={classes.root}>
       <CardContent>
