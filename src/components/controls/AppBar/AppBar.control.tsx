@@ -24,7 +24,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import Button from "@material-ui/core/Button";
 //import "@fontsource/roboto";
 
-import WeatherComponent from "../Weather/Weather.control";
+import WeatherComponent from "../Spokane/Spokane.control";
 import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
 import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
 const drawerWidth = 240;
@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     drawerHeader: {
       display: "flex",
-      alignItems: "center",
+      alignItems: "left",
       padding: theme.spacing(0, 1),
       // necessary for content to be below app bar
       ...theme.mixins.toolbar,

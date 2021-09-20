@@ -5,9 +5,7 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
-      "& > * + *": {
-        marginLeft: theme.spacing(2),
-      },
+      justifyContent: "center",
     },
   })
 );

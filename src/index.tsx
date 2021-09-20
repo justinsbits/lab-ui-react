@@ -6,11 +6,14 @@ import reportWebVitals from "./reportWebVitals";
 //import "typeface-roboto";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import ErrorBoundary from "./ErrorBoundary";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
