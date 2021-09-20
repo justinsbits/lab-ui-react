@@ -33,7 +33,7 @@ class WeatherResponse implements WeatherResponseInterface {
 
 function getSpokaneWeatherProdURI(): string {
   const baseWeatherUri: string =
-    "http://api.openweathermap.org/data/2.5/weather";
+    "http://zapi.openweathermap.org/data/2.5/weather";
   const query: string = "?q=spokane&units=imperial";
   const key = "&appid=867548eeeaefffb0e229939f6f7119bb";
   return baseWeatherUri + query + key;
@@ -41,7 +41,7 @@ function getSpokaneWeatherProdURI(): string {
 
 function getSpokaneWeatherURI(): string {
   let uri = "";
-  const prod = true;
+  const prod = true; // !!! make config based
 
   if (prod) {
     uri = getSpokaneWeatherProdURI();

@@ -4,7 +4,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: "flex",
+      //display: "flex",
       justifyContent: "center",
     },
   })
@@ -16,7 +16,6 @@ export const LoadingControl = () => {
   return (
     <div className={classes.root}>
       <CircularProgress />
-      {/* <CircularProgress color="secondary" /> */}
     </div>
   );
 };

@@ -8,7 +8,7 @@ interface State {
   hasError: boolean;
 }
 
-class ErrorBoundary extends Component<Props, State> {
+class WeatherControlErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
   };
@@ -24,11 +24,11 @@ class ErrorBoundary extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <h1>Sorry... there was an error</h1>;
+      return <h3>Error - unable to retrieve current Spokane weather</h3>;
     }
 
     return this.props.children;
   }
 }
 
-export default ErrorBoundary;
+export default WeatherControlErrorBoundary;
