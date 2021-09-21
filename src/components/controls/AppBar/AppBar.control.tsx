@@ -1,109 +1,89 @@
-import React from "react";
-import clsx from "clsx";
-import {
-  makeStyles,
-  useTheme,
-  Theme,
-  createStyles,
-} from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
+import * as React from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Drawer from "@mui/material/Drawer";
+import CssBaseline from "@mui/material/CssBaseline";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
 
-//import Button from "@material-ui/core/Button";
-//import "@fontsource/roboto";
+import { GitHub, Home, LinkedIn, Person, Settings } from "@mui/icons-material";
 
 import WeatherComponent from "../Spokane/Spokane.control";
 import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
 import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
-import { GitHub, Home, LinkedIn, Person, Settings } from "@material-ui/icons";
+
 const drawerWidth = 75;
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: "flex",
-      backgroundColor: "#cccccc",
-    },
-    appBar: {
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-    },
-    appBarShift: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-      transition: theme.transitions.create(["margin", "width"], {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-    },
-    appBarGrow: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    hide: {
-      display: "none",
-    },
-    drawer: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    drawerHeader: {
-      display: "flex",
-      alignItems: "left",
-      padding: theme.spacing(0, 1),
-      // necessary for content to be below app bar
-      ...theme.mixins.toolbar,
-      justifyContent: "flex-end",
-    },
-    content: {
-      flexGrow: 1,
-      padding: theme.spacing(3),
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      marginLeft: -drawerWidth,
-    },
-    contentShift: {
-      transition: theme.transitions.create("margin", {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    },
-  })
-);
+const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
+  open?: boolean;
+}>(({ theme, open }) => ({
+  flexGrow: 1,
+  padding: theme.spacing(3),
+  transition: theme.transitions.create("margin", {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  marginLeft: `-${drawerWidth}px`,
+  ...(open && {
+    transition: theme.transitions.create("margin", {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+    marginLeft: 0,
+  }),
+}));
+
+interface AppBarProps extends MuiAppBarProps {
+  open?: boolean;
+}
+
+const AppBar = styled(MuiAppBar, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<AppBarProps>(({ theme, open }) => ({
+  transition: theme.transitions.create(["margin", "width"], {
+    easing: theme.transitions.easing.sharp,
+    duration: theme.transitions.duration.leavingScreen,
+  }),
+  ...(open && {
+    width: `calc(100% - ${drawerWidth}px)`,
+    marginLeft: `${drawerWidth}px`,
+    transition: theme.transitions.create(["margin", "width"], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  }),
+}));
+
+const DrawerHeader = styled("div")(({ theme }) => ({
+  display: "flex",
+  alignItems: "center",
+  padding: theme.spacing(0, 1),
+  // necessary for content to be below app bar
+  ...theme.mixins.toolbar,
+  justifyContent: "flex-end",
+}));
 
 export function AppBarControl() {
-  const classes = useStyles();
   const theme = useTheme();
-  const [drawerOpen, setDrawerOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [signInDialogOpen, setsignInDialogOpen] = React.useState(false);
   const [signUpDialogOpen, setsignUpDialogOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
-    setDrawerOpen(true);
+    setOpen(true);
   };
 
   const handleDrawerClose = () => {
-    setDrawerOpen(false);
+    setOpen(false);
   };
 
   // const handleSignInDialogOpen = () => {
@@ -123,44 +103,38 @@ export function AppBarControl() {
   };
 
   return (
-    <div className={classes.root}>
+    <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        style={{ background: "#2E3B55" }}
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: drawerOpen,
-        })}
-      >
+      <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
-            className={clsx(classes.menuButton, drawerOpen && classes.hide)}
+            sx={{ mr: 2, ...(open && { display: "none" }) }}
           >
             <MenuIcon />
           </IconButton>
-          <div className={classes.appBarGrow} />
-          {/* <Button color="inherit" onClick={handleSignUpDialogOpen}>
-            SIGN UP
-          </Button>
-          <Button color="inherit" onClick={handleSignInDialogOpen}>
-            SIGN IN
-          </Button> */}
+          <Typography variant="h6" noWrap component="div">
+            Persistent drawer
+          </Typography>
         </Toolbar>
       </AppBar>
       <Drawer
-        className={classes.drawer}
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          "& .MuiDrawer-paper": {
+            width: drawerWidth,
+            boxSizing: "border-box",
+          },
+        }}
         variant="persistent"
         anchor="left"
-        open={drawerOpen}
-        classes={{
-          paper: classes.drawerPaper,
-        }}
+        open={open}
       >
-        <div className={classes.drawerHeader}>
+        <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
               <ChevronLeftIcon />
@@ -168,7 +142,7 @@ export function AppBarControl() {
               <ChevronRightIcon />
             )}
           </IconButton>
-        </div>
+        </DrawerHeader>
         <Divider />
         <List>
           <ListItem key="home">
@@ -216,12 +190,8 @@ export function AppBarControl() {
           </ListItem>
         </List>
       </Drawer>
-      <main
-        className={clsx(classes.content, {
-          [classes.contentShift]: drawerOpen,
-        })}
-      >
-        <div className={classes.drawerHeader} />
+      <Main open={open}>
+        <DrawerHeader />
         <SignInDialog
           open={signInDialogOpen}
           onClose={handleSignInDialogClose}
@@ -231,7 +201,7 @@ export function AppBarControl() {
           onClose={handleSignUpDialogClose}
         />
         <WeatherComponent />
-      </main>
-    </div>
+      </Main>
+    </Box>
   );
 }

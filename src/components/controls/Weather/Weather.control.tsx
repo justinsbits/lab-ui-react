@@ -1,14 +1,10 @@
 import { makeStyles } from "@material-ui/core";
+
 import { useWeather } from "../../../services/weather/Weather";
 import { LoadingControl } from "../Loading.tsx/Loading.control";
 
 const useStyles = makeStyles({
-  root: {
-    fontSize: 18,
-  },
-  weatherLabel: {},
-  weatherValue: { fontSize: 18, fontWeight: "bold" },
-  weatherScale: {},
+  weatherValue: { fontWeight: "bold" },
 });
 
 export default function WeatherControl() {
@@ -21,12 +17,12 @@ export default function WeatherControl() {
   }
 
   return (
-    <div className={classes.root}>
-      <label className={classes.weatherLabel}>Current Temperature: </label>
-      <label className={classes.weatherValue}>
+    <div>
+      <h6>Current Temperature: </h6>
+      <h6 className={classes.weatherValue}>
         {JSON.stringify(wri.data?.main.temp)}
-      </label>
-      <label className={classes.weatherScale}>F</label>
+      </h6>
+      <h6>F</h6>
     </div>
   );
 }

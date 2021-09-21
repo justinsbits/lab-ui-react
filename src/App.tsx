@@ -8,8 +8,9 @@ import { getAuth } from "firebase/auth";
 //import { connect } from "react-redux";
 
 import { AppBarControl } from "./components/controls/AppBar/AppBar.control";
-import HomePage from "./components/pages/Home/Home.page";
+//import HomePage from "./components/pages/Home/Home.page";
 import NotFoundPage from "./components/pages/NotFound/NotFound.page";
+import SpokaneControl from "./components/controls/Spokane/Spokane.control";
 
 function App() {
   // const [currentUser, setCurrentUser] = useState<Profile>();
@@ -44,7 +45,7 @@ function App() {
       <div className="App">
         <AppBarControl />
         <Switch>
-          <Route exact path="/" component={HomePage}></Route>
+          <Route exact path="/" component={SpokaneControl}></Route>
           <Route component={NotFoundPage} />
         </Switch>
       </div>
