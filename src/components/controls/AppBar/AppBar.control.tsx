@@ -17,10 +17,12 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 
 import { GitHub, Home, LinkedIn, Person, Settings } from "@mui/icons-material";
 
-import WeatherComponent from "../Spokane/Spokane.control";
-import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
-import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
-import { Button } from "@mui/material";
+import DashboardControl from "../Dashboard/Dashboard.control";
+// import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
+// import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
+// import { Button } from "@mui/material";
+
+import { useHistory } from "react-router-dom";
 
 const drawerWidth = 75;
 
@@ -76,8 +78,9 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export function AppBarControl() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  const [signInDialogOpen, setsignInDialogOpen] = React.useState(false);
-  const [signUpDialogOpen, setsignUpDialogOpen] = React.useState(false);
+  // const [signInDialogOpen, setsignInDialogOpen] = React.useState(false);
+  // const [signUpDialogOpen, setsignUpDialogOpen] = React.useState(false);
+  const history = useHistory();
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -87,26 +90,26 @@ export function AppBarControl() {
     setOpen(false);
   };
 
-  const handleSignInDialogOpen = () => {
-    setsignInDialogOpen(true);
-  };
+  // const handleSignInDialogOpen = () => {
+  //   setsignInDialogOpen(true);
+  // };
 
-  const handleSignInDialogClose = () => {
-    setsignInDialogOpen(false);
-  };
+  // const handleSignInDialogClose = () => {
+  //   setsignInDialogOpen(false);
+  // };
 
-  const handleSignUpDialogOpen = () => {
-    setsignUpDialogOpen(true);
-  };
+  // const handleSignUpDialogOpen = () => {
+  //   setsignUpDialogOpen(true);
+  // };
 
-  const handleSignUpDialogClose = () => {
-    setsignUpDialogOpen(false);
-  };
+  // const handleSignUpDialogClose = () => {
+  //   setsignUpDialogOpen(false);
+  // };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", backgroundColor: "#cccccc" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} sx={{ backgroundColor: "#2E3B55" }}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -117,16 +120,16 @@ export function AppBarControl() {
           >
             <MenuIcon />
           </IconButton>
+          <Box sx={{ flexGrow: 1 }} />
           <Typography variant="h6" noWrap component="div">
             Justin Schultz
           </Typography>
-          <Box sx={{ flexGrow: 1 }} />
-          <Button color="inherit" onClick={handleSignUpDialogOpen}>
+          {/* <Button color="inherit" onClick={handleSignUpDialogOpen}>
             SIGN UP
           </Button>
           <Button color="inherit" onClick={handleSignInDialogOpen}>
             SIGN IN
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -153,12 +156,12 @@ export function AppBarControl() {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem key="home">
+          <ListItem key="home" onClick={() => history.push("/")}>
             <ListItemIcon>
               <Home />
             </ListItemIcon>
           </ListItem>
-          <ListItem button key="about">
+          <ListItem button key="about" onClick={() => history.push("/about")}>
             <ListItemIcon>
               <Person />
             </ListItemIcon>
@@ -191,7 +194,11 @@ export function AppBarControl() {
         </List>
         <Divider />
         <List>
-          <ListItem button key="1">
+          <ListItem
+            button
+            key="settings"
+            onClick={() => history.push("/settings")}
+          >
             <ListItemIcon>
               <Settings />
             </ListItemIcon>
@@ -200,15 +207,15 @@ export function AppBarControl() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <WeatherComponent />
-        <SignInDialog
+        <DashboardControl />
+        {/* <SignInDialog
           open={signInDialogOpen}
           onClose={handleSignInDialogClose}
         />
         <SignUpDialog
           open={signUpDialogOpen}
           onClose={handleSignUpDialogClose}
-        />
+        /> */}
       </Main>
     </Box>
   );

@@ -1,15 +1,9 @@
-import { makeStyles } from "@material-ui/core";
-
+import { Typography } from "@material-ui/core";
 import { useWeather } from "../../../services/weather/Weather";
-import { LoadingControl } from "../Loading.tsx/Loading.control";
-
-const useStyles = makeStyles({
-  weatherValue: { fontWeight: "bold" },
-});
+import { LoadingControl } from "../Loading/Loading.control";
 
 export default function WeatherControl() {
   const wri = useWeather();
-  const classes = useStyles();
 
   if (wri.error) throw wri.error;
   if (wri.loading) {
@@ -17,12 +11,8 @@ export default function WeatherControl() {
   }
 
   return (
-    <div>
-      <h6>Current Temperature: </h6>
-      <h6 className={classes.weatherValue}>
-        {JSON.stringify(wri.data?.main.temp)}
-      </h6>
-      <h6>F</h6>
-    </div>
+    <Typography variant="h6" noWrap component="div">
+      Spokane - Current Temperature: {JSON.stringify(wri.data?.main.temp)}F
+    </Typography>
   );
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
@@ -13,11 +13,13 @@ import "@fontsource/roboto/700.css";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <AppErrorBoundary>
-        <App />
-      </AppErrorBoundary>
-    </Provider>
+    <BrowserRouter>
+      <Provider store={store}>
+        <AppErrorBoundary>
+          <App />
+        </AppErrorBoundary>
+      </Provider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
