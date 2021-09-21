@@ -22,11 +22,11 @@ export default function WeatherControl() {
 
   return (
     <div className={classes.root}>
-      <label className={classes.weatherLabel}>Current Temperature:</label>
+      <label className={classes.weatherLabel}>Current Temperature: </label>
       <label className={classes.weatherValue}>
         {JSON.stringify(wri.data?.main.temp)}
       </label>
-      <label className={classes.weatherScale}> F</label>
+      <label className={classes.weatherScale}>F</label>
     </div>
   );
 }

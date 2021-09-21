@@ -18,21 +18,21 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
-import MailIcon from "@material-ui/icons/Mail";
-import Button from "@material-ui/core/Button";
+
+//import Button from "@material-ui/core/Button";
 //import "@fontsource/roboto";
 
 import WeatherComponent from "../Spokane/Spokane.control";
 import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
 import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
-const drawerWidth = 240;
+import { GitHub, Home, LinkedIn, Person, Settings } from "@material-ui/icons";
+const drawerWidth = 75;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       display: "flex",
+      backgroundColor: "#cccccc",
     },
     appBar: {
       transition: theme.transitions.create(["margin", "width"], {
@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export function AppBarControl() {
   const classes = useStyles();
   const theme = useTheme();
-  const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [drawerOpen, setDrawerOpen] = React.useState(true);
   const [signInDialogOpen, setsignInDialogOpen] = React.useState(false);
   const [signUpDialogOpen, setsignUpDialogOpen] = React.useState(false);
 
@@ -106,17 +106,17 @@ export function AppBarControl() {
     setDrawerOpen(false);
   };
 
-  const handleSignInDialogOpen = () => {
-    setsignInDialogOpen(true);
-  };
+  // const handleSignInDialogOpen = () => {
+  //   setsignInDialogOpen(true);
+  // };
 
   const handleSignInDialogClose = () => {
     setsignInDialogOpen(false);
   };
 
-  const handleSignUpDialogOpen = () => {
-    setsignUpDialogOpen(true);
-  };
+  // const handleSignUpDialogOpen = () => {
+  //   setsignUpDialogOpen(true);
+  // };
 
   const handleSignUpDialogClose = () => {
     setsignUpDialogOpen(false);
@@ -126,6 +126,7 @@ export function AppBarControl() {
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+        style={{ background: "#2E3B55" }}
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: drawerOpen,
@@ -142,12 +143,12 @@ export function AppBarControl() {
             <MenuIcon />
           </IconButton>
           <div className={classes.appBarGrow} />
-          <Button color="inherit" onClick={handleSignUpDialogOpen}>
+          {/* <Button color="inherit" onClick={handleSignUpDialogOpen}>
             SIGN UP
           </Button>
           <Button color="inherit" onClick={handleSignInDialogOpen}>
             SIGN IN
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -170,25 +171,49 @@ export function AppBarControl() {
         </div>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem key="home">
+            <ListItemIcon>
+              <Home />
+            </ListItemIcon>
+          </ListItem>
+          <ListItem button key="about">
+            <ListItemIcon>
+              <Person />
+            </ListItemIcon>
+          </ListItem>
+          <ListItem
+            button
+            key="linkedin"
+            onClick={(e) =>
+              window.open(
+                "https://www.linkedin.com/in/spk-justin-schultz",
+                "_blank"
+              )
+            }
+          >
+            <ListItemIcon>
+              <LinkedIn />
+            </ListItemIcon>
+          </ListItem>
+          <ListItem
+            button
+            key="github"
+            onClick={(e) =>
+              window.open("https://github.com/justinsbits", "_blank")
+            }
+          >
+            <ListItemIcon>
+              <GitHub />
+            </ListItemIcon>
+          </ListItem>
         </List>
         <Divider />
         <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          <ListItem button key="1">
+            <ListItemIcon>
+              <Settings />
+            </ListItemIcon>
+          </ListItem>
         </List>
       </Drawer>
       <main
