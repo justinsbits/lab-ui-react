@@ -20,6 +20,7 @@ import { GitHub, Home, LinkedIn, Person, Settings } from "@mui/icons-material";
 import WeatherComponent from "../Spokane/Spokane.control";
 import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
 import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
+import { Button } from "@mui/material";
 
 const drawerWidth = 75;
 
@@ -74,7 +75,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 
 export function AppBarControl() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [signInDialogOpen, setsignInDialogOpen] = React.useState(false);
   const [signUpDialogOpen, setsignUpDialogOpen] = React.useState(false);
 
@@ -86,17 +87,17 @@ export function AppBarControl() {
     setOpen(false);
   };
 
-  // const handleSignInDialogOpen = () => {
-  //   setsignInDialogOpen(true);
-  // };
+  const handleSignInDialogOpen = () => {
+    setsignInDialogOpen(true);
+  };
 
   const handleSignInDialogClose = () => {
     setsignInDialogOpen(false);
   };
 
-  // const handleSignUpDialogOpen = () => {
-  //   setsignUpDialogOpen(true);
-  // };
+  const handleSignUpDialogOpen = () => {
+    setsignUpDialogOpen(true);
+  };
 
   const handleSignUpDialogClose = () => {
     setsignUpDialogOpen(false);
@@ -117,8 +118,15 @@ export function AppBarControl() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Persistent drawer
+            Justin Schultz
           </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          <Button color="inherit" onClick={handleSignUpDialogOpen}>
+            SIGN UP
+          </Button>
+          <Button color="inherit" onClick={handleSignInDialogOpen}>
+            SIGN IN
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -192,6 +200,7 @@ export function AppBarControl() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
+        <WeatherComponent />
         <SignInDialog
           open={signInDialogOpen}
           onClose={handleSignInDialogClose}
@@ -200,7 +209,6 @@ export function AppBarControl() {
           open={signUpDialogOpen}
           onClose={handleSignUpDialogClose}
         />
-        <WeatherComponent />
       </Main>
     </Box>
   );

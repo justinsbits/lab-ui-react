@@ -1,21 +1,10 @@
-import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      //display: "flex",
-      justifyContent: "center",
-    },
-  })
-);
-
-export const LoadingControl = () => {
-  const classes = useStyles();
-
+export function LoadingControl() {
   return (
-    <div className={classes.root}>
+    <Box sx={{ display: "flex" }}>
       <CircularProgress />
-    </div>
+    </Box>
   );
-};
+}
