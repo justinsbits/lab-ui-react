@@ -8,7 +8,7 @@ export default function DashboardControl() {
     <>
       <Switch>
         <Route exact path="/" component={SpokaneControl} />
-        <Route path="/about" component={AboutMeControl} />
+        <Route path="/resume" component={AboutMeControl} />
         <Route path="/settings" component={SettingsControl} />
       </Switch>
     </>
