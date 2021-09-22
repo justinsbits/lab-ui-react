@@ -1,5 +1,5 @@
 import Card from "@mui/material/Card";
-import { CardMedia } from "@material-ui/core";
+import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import WeatherControl from "../Weather/Weather.control";
 import WeatherControlErrorBoundary from "../Weather/Weather.control.errorboundary";
