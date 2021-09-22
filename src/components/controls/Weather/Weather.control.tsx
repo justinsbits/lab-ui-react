@@ -1,4 +1,4 @@
-import { Typography } from "@material-ui/core";
+import Typography from "@mui/material/Typography";
 import { useWeather } from "../../../services/weather/Weather";
 import { LoadingControl } from "../Loading/Loading.control";
 
