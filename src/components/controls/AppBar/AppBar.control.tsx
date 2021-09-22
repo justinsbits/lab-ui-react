@@ -6,7 +6,6 @@ import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -14,15 +13,20 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
-
-import { GitHub, Home, LinkedIn, Person, Settings } from "@mui/icons-material";
+import DescriptionIcon from "@mui/icons-material/Description";
+//import Typography from "@mui/material/Typography";
+import { GitHub, Home, LinkedIn, Settings } from "@mui/icons-material";
+import Avatar from "@mui/material/Avatar";
+import { Button } from "@mui/material";
 
 import DashboardControl from "../Dashboard/Dashboard.control";
 // import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
 // import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
-// import { Button } from "@mui/material";
 
 import { useHistory } from "react-router-dom";
+
+import profileImg from "../../../assets/spokanejs-profile.jpg";
+import DateTimeControl from "../DateTime/DateTime.control";
 
 const drawerWidth = 75;
 
@@ -120,10 +124,20 @@ export function AppBarControl() {
           >
             <MenuIcon />
           </IconButton>
+          <Box>
+            <DateTimeControl />
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Typography variant="h6" noWrap component="div">
+          <Button>
+            <Avatar
+              alt="Justin Schultz"
+              src={profileImg}
+              sx={{ width: 40, height: 40, backgroundColor: "#ffffff" }}
+            />
+          </Button>
+          {/* <Typography variant="h6" noWrap component="div">
             Justin Schultz
-          </Typography>
+          </Typography> */}
           {/* <Button color="inherit" onClick={handleSignUpDialogOpen}>
             SIGN UP
           </Button>
@@ -156,16 +170,26 @@ export function AppBarControl() {
         </DrawerHeader>
         <Divider />
         <List>
-          <ListItem key="home" onClick={() => history.push("/")}>
+          <ListItem button key="home" onClick={() => history.push("/")}>
             <ListItemIcon>
               <Home />
             </ListItemIcon>
           </ListItem>
-          <ListItem button key="about" onClick={() => history.push("/about")}>
+          <ListItem button key="resume" onClick={() => history.push("/resume")}>
             <ListItemIcon>
-              <Person />
+              <DescriptionIcon />
             </ListItemIcon>
           </ListItem>
+          <ListItem
+            button
+            key="settings"
+            onClick={() => history.push("/settings")}
+          >
+            <ListItemIcon>
+              <Settings />
+            </ListItemIcon>
+          </ListItem>
+          <Divider />
           <ListItem
             button
             key="linkedin"
@@ -189,18 +213,6 @@ export function AppBarControl() {
           >
             <ListItemIcon>
               <GitHub />
-            </ListItemIcon>
-          </ListItem>
-        </List>
-        <Divider />
-        <List>
-          <ListItem
-            button
-            key="settings"
-            onClick={() => history.push("/settings")}
-          >
-            <ListItemIcon>
-              <Settings />
             </ListItemIcon>
           </ListItem>
         </List>
