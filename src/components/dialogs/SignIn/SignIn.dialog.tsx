@@ -1,12 +1,4 @@
 import {
-  makeStyles,
-  Theme,
-  createTheme,
-  createStyles,
-  withStyles,
-} from "@material-ui/core/styles";
-
-import {
   Dialog,
   DialogTitle,
   DialogContent,
@@ -14,42 +6,16 @@ import {
   Typography,
   Tooltip,
   IconButton,
-  // Hidden,
   Grid,
   Button,
-  // Divider,
   TextField,
-} from "@material-ui/core";
-import { Close as CloseIcon } from "@material-ui/icons";
-import { AuthProviderList } from "../../controls/AuthProviderList/AuthProviderList.control";
+} from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
+
 //import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import AuthenticationService from "../../../services/authentication/Authentication.service";
-
-const theme = createTheme();
-const styles = (theme: Theme) =>
-  createStyles({
-    closeButton: {
-      position: "absolute",
-      right: theme.spacing(1),
-      top: theme.spacing(1),
-    },
-
-    icon: {
-      marginRight: theme.spacing(0.5),
-    },
-
-    divider: {
-      margin: "auto",
-    },
-
-    grid: {
-      marginBottom: theme.spacing(2),
-    },
-  });
-const useStyles = makeStyles(styles);
-
 interface SignInDialogProps {
   open: boolean;
   //   selectedValue: string;
@@ -57,10 +23,7 @@ interface SignInDialogProps {
 }
 
 function SignInDialog(props: SignInDialogProps) {
-  const classes = useStyles(theme);
   const { open, onClose } = props;
-
-  function signInWithAuthProvider(provider: any) {}
 
   const PasswordSchema = yup.object().shape({
     email: yup
@@ -91,26 +54,23 @@ function SignInDialog(props: SignInDialogProps) {
   };
 
   return (
-    <Dialog fullWidth maxWidth="sm" open={open} onExited={handleExited}>
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={handleExited}>
       <form onSubmit={formik.handleSubmit}>
-        <DialogTitle disableTypography>
-          <Typography variant="h6">Sign in to your account</Typography>
-
-          <Tooltip title="Close">
-            <IconButton className={classes.closeButton} onClick={onClose}>
-              <CloseIcon />
-            </IconButton>
-          </Tooltip>
-        </DialogTitle>
-
+        <Grid container>
+          <Grid item xs={11}>
+            <DialogTitle>
+              <Typography variant="h6">Sign in to your account</Typography>
+            </DialogTitle>
+          </Grid>
+          <Grid item xs={1} alignItems="flex-start">
+            <Tooltip title="Close">
+              <IconButton onClick={onClose}>
+                <CancelIcon />
+              </IconButton>
+            </Tooltip>
+          </Grid>
+        </Grid>
         <DialogContent>
-          {
-            <AuthProviderList
-              gutterBottom
-              onAuthProviderClick={signInWithAuthProvider}
-            />
-          }
-
           <Grid container direction="column" spacing={2}>
             <Grid item xs>
               <TextField
@@ -155,11 +115,7 @@ function SignInDialog(props: SignInDialogProps) {
         </DialogContent>
 
         <DialogActions>
-          <Button color="primary" variant="outlined">
-            Reset password
-          </Button>
-
-          <Button type="submit" color="primary" variant="contained">
+          <Button type="submit" variant="contained">
             Sign in
           </Button>
         </DialogActions>
@@ -167,4 +123,4 @@ function SignInDialog(props: SignInDialogProps) {
     </Dialog>
   );
 }
-export default withStyles(styles)(SignInDialog);
+export default SignInDialog;

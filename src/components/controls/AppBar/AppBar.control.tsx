@@ -16,17 +16,13 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import DescriptionIcon from "@mui/icons-material/Description";
 //import Typography from "@mui/material/Typography";
 import { GitHub, Home, LinkedIn, Settings } from "@mui/icons-material";
-import Avatar from "@mui/material/Avatar";
-import { Button } from "@mui/material";
 
 import DashboardControl from "../Dashboard/Dashboard.control";
-// import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
-// import SignUpDialog from "../../dialogs/SignUp/SignUp.dialog";
 
 import { useHistory } from "react-router-dom";
 
-import profileImg from "../../../assets/spokanejs-profile.jpg";
 import DateTimeControl from "../DateTime/DateTime.control";
+import { LoginControl } from "../Login/Login.control";
 
 const drawerWidth = 75;
 
@@ -82,8 +78,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export function AppBarControl() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
-  // const [signInDialogOpen, setsignInDialogOpen] = React.useState(false);
-  // const [signUpDialogOpen, setsignUpDialogOpen] = React.useState(false);
   const history = useHistory();
 
   const handleDrawerOpen = () => {
@@ -93,22 +87,6 @@ export function AppBarControl() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-
-  // const handleSignInDialogOpen = () => {
-  //   setsignInDialogOpen(true);
-  // };
-
-  // const handleSignInDialogClose = () => {
-  //   setsignInDialogOpen(false);
-  // };
-
-  // const handleSignUpDialogOpen = () => {
-  //   setsignUpDialogOpen(true);
-  // };
-
-  // const handleSignUpDialogClose = () => {
-  //   setsignUpDialogOpen(false);
-  // };
 
   return (
     <Box sx={{ display: "flex", backgroundColor: "#cccccc" }}>
@@ -128,22 +106,7 @@ export function AppBarControl() {
             <DateTimeControl />
           </Box>
           <Box sx={{ flexGrow: 1 }} />
-          <Button>
-            <Avatar
-              alt="Justin Schultz"
-              src={profileImg}
-              sx={{ width: 40, height: 40, backgroundColor: "#ffffff" }}
-            />
-          </Button>
-          {/* <Typography variant="h6" noWrap component="div">
-            Justin Schultz
-          </Typography> */}
-          {/* <Button color="inherit" onClick={handleSignUpDialogOpen}>
-            SIGN UP
-          </Button>
-          <Button color="inherit" onClick={handleSignInDialogOpen}>
-            SIGN IN
-          </Button> */}
+          <LoginControl />
         </Toolbar>
       </AppBar>
       <Drawer
@@ -220,14 +183,6 @@ export function AppBarControl() {
       <Main open={open}>
         <DrawerHeader />
         <DashboardControl />
-        {/* <SignInDialog
-          open={signInDialogOpen}
-          onClose={handleSignInDialogClose}
-        />
-        <SignUpDialog
-          open={signUpDialogOpen}
-          onClose={handleSignUpDialogClose}
-        /> */}
       </Main>
     </Box>
   );
