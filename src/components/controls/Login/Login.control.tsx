@@ -2,15 +2,16 @@ import { Avatar, Button } from "@mui/material";
 import { useState } from "react";
 import profileImg from "../../../assets/spokanejs-profile.jpg";
 import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
+import { useContext } from "react";
+import AuthContext from "../../../services/authentication/Authentication.context";
 
 export function LoginControl() {
   const [signInDialogOpenState, setSignInDialogOpenState] = useState(false);
-
-  const signedIn = false;
+  const { userAuthenticated } = useContext(AuthContext);
 
   return (
     <>
-      {signedIn ? (
+      {userAuthenticated ? (
         <Button>
           <Avatar
             alt="Justin Schultz"

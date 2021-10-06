@@ -3,7 +3,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Typography,
   Tooltip,
   IconButton,
   Grid,
@@ -15,7 +14,9 @@ import CancelIcon from "@mui/icons-material/Cancel";
 //import { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
-import AuthenticationService from "../../../services/authentication/Authentication.service";
+import { useContext } from "react";
+import AuthContext from "../../../services/authentication/Authentication.context";
+//import AuthenticationService from "../../../services/authentication/Authentication.service";
 interface SignInDialogProps {
   open: boolean;
   //   selectedValue: string;
@@ -24,6 +25,7 @@ interface SignInDialogProps {
 
 function SignInDialog(props: SignInDialogProps) {
   const { open, onClose } = props;
+  const { userAuthenticated, toggleAuthenticated } = useContext(AuthContext);
 
   const PasswordSchema = yup.object().shape({
     email: yup
@@ -45,7 +47,10 @@ function SignInDialog(props: SignInDialogProps) {
     validateOnChange: true,
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2));
-      AuthenticationService.signIn(formik.values.email, formik.values.password);
+      console.log(userAuthenticated);
+      toggleAuthenticated();
+      console.log(userAuthenticated);
+      //AuthenticationService.signIn(formik.values.email, formik.values.password);
     },
   });
 
@@ -58,9 +63,7 @@ function SignInDialog(props: SignInDialogProps) {
       <form onSubmit={formik.handleSubmit}>
         <Grid container>
           <Grid item xs={11}>
-            <DialogTitle>
-              <Typography variant="h6">Sign in to your account</Typography>
-            </DialogTitle>
+            <DialogTitle>Sign in to your account</DialogTitle>
           </Grid>
           <Grid item xs={1} alignItems="flex-start">
             <Tooltip title="Close">

@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Firebase } from "./firebase/firebase";
 import { getAuth } from "firebase/auth";
 
-//import { connect } from "react-redux";
-
 import { AppBarControl } from "./components/controls/AppBar/AppBar.control";
+import AuthContext from "./services/authentication/Authentication.context";
 
 function App() {
   // const [currentUser, setCurrentUser] = useState<Profile>();
+  const [userAuthenticated, setUserAuthenticated] = useState(false);
+  const toggleAuthenticated = () =>
+    setUserAuthenticated(userAuthenticated === true ? false : true);
 
   (function initApp() {
     Firebase.Init();
@@ -36,7 +38,9 @@ function App() {
 
   return (
     <div className="App">
-      <AppBarControl />
+      <AuthContext.Provider value={{ userAuthenticated, toggleAuthenticated }}>
+        <AppBarControl />
+      </AuthContext.Provider>
     </div>
   );
 }
