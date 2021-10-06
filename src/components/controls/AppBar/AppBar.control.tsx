@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useHistory } from "react-router-dom";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
@@ -14,13 +15,11 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import DescriptionIcon from "@mui/icons-material/Description";
-//import Typography from "@mui/material/Typography";
+import CarpenterIcon from "@mui/icons-material/Carpenter";
 import { GitHub, Home, LinkedIn, Settings } from "@mui/icons-material";
 
 import DashboardControl from "../Dashboard/Dashboard.control";
-
-import { useHistory } from "react-router-dom";
-
+import AuthContext from "../../../services/authentication/Authentication.context";
 import DateTimeControl from "../DateTime/DateTime.control";
 import { LoginControl } from "../Login/Login.control";
 
@@ -78,6 +77,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export function AppBarControl() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(true);
+  const { userAuthenticated } = React.useContext(AuthContext);
   const history = useHistory();
 
   const handleDrawerOpen = () => {
@@ -152,6 +152,14 @@ export function AppBarControl() {
               <Settings />
             </ListItemIcon>
           </ListItem>
+          {userAuthenticated && (
+            <ListItem button key="admin" onClick={() => history.push("/admin")}>
+              <ListItemIcon>
+                <CarpenterIcon />
+              </ListItemIcon>
+            </ListItem>
+          )}
+
           <Divider />
           <ListItem
             button

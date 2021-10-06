@@ -15,6 +15,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import AuthContext from "../../../services/authentication/Authentication.context";
 //import AuthenticationService from "../../../services/authentication/Authentication.service";
 interface SignInDialogProps {
@@ -26,6 +27,7 @@ interface SignInDialogProps {
 function SignInDialog(props: SignInDialogProps) {
   const { open, onClose } = props;
   const { userAuthenticated, toggleAuthenticated } = useContext(AuthContext);
+  const history = useHistory();
 
   const PasswordSchema = yup.object().shape({
     email: yup
@@ -46,20 +48,22 @@ function SignInDialog(props: SignInDialogProps) {
     validationSchema: PasswordSchema,
     validateOnChange: true,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+      //alert(JSON.stringify(values, null, 2));
       console.log(userAuthenticated);
       toggleAuthenticated();
-      console.log(userAuthenticated);
+      history.push("/");
+      handleDialogExit();
       //AuthenticationService.signIn(formik.values.email, formik.values.password);
     },
   });
 
-  const handleExited = () => {
+  const handleDialogExit = () => {
     formik.resetForm();
+    onClose();
   };
 
   return (
-    <Dialog fullWidth maxWidth="sm" open={open} onClose={handleExited}>
+    <Dialog fullWidth maxWidth="sm" open={open} onClose={handleDialogExit}>
       <form onSubmit={formik.handleSubmit}>
         <Grid container>
           <Grid item xs={11}>
@@ -67,7 +71,7 @@ function SignInDialog(props: SignInDialogProps) {
           </Grid>
           <Grid item xs={1} alignItems="flex-start">
             <Tooltip title="Close">
-              <IconButton onClick={onClose}>
+              <IconButton onClick={handleDialogExit}>
                 <CancelIcon />
               </IconButton>
             </Tooltip>
