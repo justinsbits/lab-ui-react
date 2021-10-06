@@ -1,3 +1,5 @@
-const HomePage = () => <div>HOME PAGE</div>;
+import SpokaneControl from "../../controls/Spokane/Spokane.control";
 
-export default HomePage;
+export default function HomePage() {
+  return <SpokaneControl />;
+}

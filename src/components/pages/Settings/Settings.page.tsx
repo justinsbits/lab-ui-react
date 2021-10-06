@@ -53,7 +53,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 
-export default function SettingsControl() {
+export default function SettingsPage() {
   return (
     <Card>
       <CardContent>
