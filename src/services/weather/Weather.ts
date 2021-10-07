@@ -33,7 +33,7 @@ class WeatherResponse implements WeatherResponseInterface {
 
 function getSpokaneWeatherProdURI(): string {
   const baseWeatherUri: string =
-    "http://api.openweathermap.org/data/2.5/weather";
+    "https://api.openweathermap.org/data/2.5/weather";
   const query: string = "?q=spokane&units=imperial";
   const key = "&appid=867548eeeaefffb0e229939f6f7119bb";
   return baseWeatherUri + query + key;
