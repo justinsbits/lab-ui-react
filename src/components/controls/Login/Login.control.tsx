@@ -4,15 +4,20 @@ import profileImg from "../../../assets/spokanejs-profile.jpg";
 import SignInDialog from "../../dialogs/SignIn/SignIn.dialog";
 import { useContext } from "react";
 import AuthContext from "../../../services/authentication/Authentication.context";
+import AuthenticationService from "../../../services/authentication/Authentication.service";
 
 export function LoginControl() {
   const [signInDialogOpenState, setSignInDialogOpenState] = useState(false);
-  const { userAuthenticated } = useContext(AuthContext);
-
+  const { userAuthenticated, toggleAuthenticated } = useContext(AuthContext);
   return (
     <>
       {userAuthenticated ? (
-        <Button>
+        <Button
+          onClick={() => {
+            AuthenticationService.signOut();
+            toggleAuthenticated();
+          }}
+        >
           <Avatar
             alt="Justin Schultz"
             src={profileImg}

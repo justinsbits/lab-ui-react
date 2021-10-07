@@ -17,7 +17,7 @@ import * as yup from "yup";
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import AuthContext from "../../../services/authentication/Authentication.context";
-//import AuthenticationService from "../../../services/authentication/Authentication.service";
+import AuthenticationService from "../../../services/authentication/Authentication.service";
 interface SignInDialogProps {
   open: boolean;
   //   selectedValue: string;
@@ -26,7 +26,7 @@ interface SignInDialogProps {
 
 function SignInDialog(props: SignInDialogProps) {
   const { open, onClose } = props;
-  const { userAuthenticated, toggleAuthenticated } = useContext(AuthContext);
+  const { toggleAuthenticated } = useContext(AuthContext);
   const history = useHistory();
 
   const PasswordSchema = yup.object().shape({
@@ -48,12 +48,14 @@ function SignInDialog(props: SignInDialogProps) {
     validationSchema: PasswordSchema,
     validateOnChange: true,
     onSubmit: (values) => {
-      //alert(JSON.stringify(values, null, 2));
-      console.log(userAuthenticated);
-      toggleAuthenticated();
-      history.push("/");
-      handleDialogExit();
-      //AuthenticationService.signIn(formik.values.email, formik.values.password);
+      AuthenticationService.signIn(
+        formik.values.email,
+        formik.values.password
+      ).then(() => {
+        toggleAuthenticated();
+        history.push("/");
+        handleDialogExit();
+      });
     },
   });
 

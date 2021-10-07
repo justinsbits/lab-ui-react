@@ -7,7 +7,22 @@ export default class AuthenticationService {
       .then((userCredential) => {
         // Signed in
         //const user = userCredential.user;
-        alert(`User: ${userCredential.user} logged in!`);
+        alert(`User: ${userCredential.user.email} logged in!`);
+        // ...
+      })
+      .catch((error) => {
+        // const errorCode = error.code;
+        // const errorMessage = error.message;
+        alert(`Error Code/Message: ${error.code}/${error.message}`);
+      });
+  }
+
+  static async signOut() {
+    const auth = getAuth();
+    auth
+      .signOut()
+      .then(() => {
+        alert(`User logged out!`);
         // ...
       })
       .catch((error) => {
