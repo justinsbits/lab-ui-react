@@ -1,20 +1,24 @@
-# pull the official base image
-FROM node:alpine
-# set working direction
+### build ###
+FROM node:alpine AS builder
 WORKDIR /app
 
-# install application dependencies
 COPY package.json .
 COPY package-lock.json .
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
-RUN npm install
-RUN npm install react-scripts@3.4.1 -g
-# RUN npm install -g npm@7.24.2
-
+# use npm ci to ensure strict adherance to 'version contract' in package-lock.json
+RUN npm ci --only=production 
+# copy files into build build context to support build
 COPY . .
+RUN npm run build
 
-EXPOSE 8080
 
-CMD ["npm", "start"]
+### finalize ###
+FROM nginx:alpine
+# Set working directory to nginx asset directory
+WORKDIR /usr/share/nginx/html
+# Remove default nginx static assets
+RUN rm -rf ./*
+# Copy static assets from builder stage
+COPY --from=builder /app/build .
+# Containers run nginx with global directives and daemon off
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
