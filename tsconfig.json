@@ -16,7 +16,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "watch": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "typeRoots": ["./src/types"]
