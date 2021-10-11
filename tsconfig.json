@@ -18,8 +18,9 @@
     "watch": true,
     "noImplicitAny": false,
     "noUnusedLocals": true,
-    "strictNullChecks": true,
-    "typeRoots": ["./src/types"]
+    "strictNullChecks": true
+    // "typeRoots": ["./src/types"],
+    // "types": ["@types/jest"]
   },
   "include": ["src"]
 }
