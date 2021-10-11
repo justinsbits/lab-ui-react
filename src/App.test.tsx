@@ -1,9 +1,9 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
-import App from "./App";
 
-test("renders learn react link", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
+import SettingsPage from "./components/pages/Settings/Settings.page";
+
+test("Renders Dark Mode", () => {
+  render(<SettingsPage />);
+  const linkElement = screen.getByText(/Dark Mode/i);
   expect(linkElement).toBeInTheDocument();
 });
