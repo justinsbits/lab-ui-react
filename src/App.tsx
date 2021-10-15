@@ -1,9 +1,30 @@
 import { useEffect, useState } from "react";
 import { Firebase } from "./firebase/firebase";
 import { getAuth } from "firebase/auth";
-
+// import {
+//   ApolloClient,
+//   ApolloProvider,
+//   HttpLink,
+//   InMemoryCache,
+// } from "@apollo/client";
 import { AppBarControl } from "./components/controls/AppBar/AppBar.control";
 import AuthContext from "./services/authentication/Authentication.context";
+
+// const cache = new InMemoryCache();
+
+// const GITHUB_BASE_URL = "https://api.github.com/graphql";
+
+// const httpLink = new HttpLink({
+//   uri: GITHUB_BASE_URL,
+//   headers: {
+//     authorization: `Bearer ${process.env.GB_API_TOKEN}`,
+//   },
+// });
+
+// const client = new ApolloClient({
+//   link: httpLink,
+//   cache,
+// });
 
 function App() {
   // const [currentUser, setCurrentUser] = useState<Profile>();
