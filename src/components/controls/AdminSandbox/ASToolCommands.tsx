@@ -1,48 +1,40 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+  //GridRowsProp,
+  useGridApiRef,
+  DataGridPro,
+  GridApiRef,
+  //GridColumns,
+  GridRowParams,
+  MuiEvent,
+  GridToolbarContainer,
+  GridActionsCellItem,
+  //GridColDef,
+  GridColumns,
+} from "@mui/x-data-grid-pro";
 import { gql, useQuery } from "@apollo/client";
+import { createTheme } from "@mui/material/styles";
+import { makeStyles } from "@mui/styles";
+import { Button } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import SaveIcon from "@mui/icons-material/Save";
+import CancelIcon from "@mui/icons-material/Cancel";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import React from "react";
 
-const columns: GridColDef[] = [
-  { field: "id", headerName: "Tool ID", width: 125, hide: true },
-  {
-    field: "Tool.Name",
-    headerName: "Tool Name",
-    width: 200,
-  },
-  {
-    field: "Tool.Decription",
-    headerName: "Description",
-    width: 200,
-    hide: true,
-  },
-  {
-    field: "Tool.Command.Id",
-    headerName: "Command ID",
-    width: 175,
-    hide: true,
-  },
-  {
-    field: "Tool.Command.HowTo",
-    headerName: "Command Description",
-    width: 400,
-  },
-  {
-    field: "Tool.Command.CommandLine",
-    headerName: "Command",
-    width: 600,
-  },
-];
+const defaultTheme = createTheme();
 
-// const rows = [
-//   { id: 1, lastName: "Snow", firstName: "Jon", age: 35 },
-//   { id: 2, lastName: "Lannister", firstName: "Cersei", age: 42 },
-//   { id: 3, lastName: "Lannister", firstName: "Jaime", age: 45 },
-//   { id: 4, lastName: "Stark", firstName: "Arya", age: 16 },
-//   { id: 5, lastName: "Targaryen", firstName: "Daenerys", age: null },
-//   { id: 6, lastName: "Melisandre", firstName: null, age: 150 },
-//   { id: 7, lastName: "Clifford", firstName: "Ferrara", age: 44 },
-//   { id: 8, lastName: "Frances", firstName: "Rossini", age: 36 },
-//   { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
-// ];
+const useStyles = makeStyles(
+  (theme) => ({
+    actions: {
+      color: theme.palette.text.secondary,
+    },
+    textPrimary: {
+      color: theme.palette.text.primary,
+    },
+  }),
+  { defaultTheme }
+);
 
 const GET_COMMANDS_AND_TOOLS = gql`
   {
@@ -87,8 +79,167 @@ function apiCmdToolsToViewObj(apiCmdToolResult) {
   return result;
 }
 
+interface EditToolbarProps {
+  apiRef: GridApiRef;
+}
+
+function EditToolbar(props: EditToolbarProps) {
+  const { apiRef } = props;
+
+  const handleClick = () => {
+    const id = 2; //randomId();
+    apiRef.current.updateRows([{ id, isNew: true }]);
+    apiRef.current.setRowMode(id, "edit");
+    // Wait for the grid to render with the new row
+    setTimeout(() => {
+      apiRef.current.scrollToIndexes({
+        rowIndex: apiRef.current.getRowsCount() - 1,
+      });
+      apiRef.current.setCellFocus(id, "name");
+    });
+  };
+
+  return (
+    <GridToolbarContainer>
+      <Button color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+        Add record
+      </Button>
+    </GridToolbarContainer>
+  );
+}
+
 export default function ASToolCommands() {
+  const classes = useStyles();
+  const apiRef = useGridApiRef();
+
+  const handleRowEditStart = (
+    params: GridRowParams,
+    event: MuiEvent<React.SyntheticEvent>
+  ) => {
+    event.defaultMuiPrevented = true;
+  };
+
+  const handleRowEditStop = (
+    params: GridRowParams,
+    event: MuiEvent<React.SyntheticEvent>
+  ) => {
+    event.defaultMuiPrevented = true;
+  };
+
+  const handleEditClick = (id) => (event) => {
+    event.stopPropagation();
+    apiRef.current.setRowMode(id, "edit");
+  };
+
+  const handleSaveClick = (id) => (event) => {
+    event.stopPropagation();
+    apiRef.current.commitRowChange(id);
+    apiRef.current.setRowMode(id, "view");
+
+    const row = apiRef.current.getRow(id);
+    apiRef.current.updateRows([{ ...row, isNew: false }]);
+  };
+
+  const handleDeleteClick = (id) => (event) => {
+    event.stopPropagation();
+    apiRef.current.updateRows([{ id, _action: "delete" }]);
+  };
+
+  const handleCancelClick = (id) => (event) => {
+    event.stopPropagation();
+    apiRef.current.setRowMode(id, "view");
+
+    const row = apiRef.current.getRow(id);
+    if (row!.isNew) {
+      apiRef.current.updateRows([{ id, _action: "delete" }]);
+    }
+  };
+
+  // ideally dynamic below - i.e. not addressing via React.useMemo
+  const columns: GridColumns = [
+    {
+      field: "id",
+      headerName: "Tool ID",
+      type: "number",
+      width: 125,
+      hide: true,
+    },
+    {
+      field: "Tool.Name",
+      headerName: "Tool Name",
+      width: 200,
+      editable: true,
+    },
+    {
+      field: "Tool.Decription",
+      headerName: "Description",
+      width: 200,
+      hide: true,
+    },
+    {
+      field: "Tool.Command.Id",
+      headerName: "Command ID",
+      type: "number",
+      width: 175,
+      hide: true,
+    },
+    {
+      field: "Tool.Command.HowTo",
+      headerName: "Command Description",
+      width: 400,
+      editable: true,
+    },
+    {
+      field: "Tool.Command.CommandLine",
+      headerName: "Command",
+      width: 600,
+      editable: true,
+    },
+    {
+      field: "actions",
+      type: "actions",
+      getActions: (params: GridRowParams) => {
+        const isInEditMode = apiRef.current.getRowMode(params.id) === "edit";
+
+        if (isInEditMode) {
+          return [
+            <GridActionsCellItem
+              icon={<SaveIcon />}
+              label="Save"
+              onClick={handleSaveClick(params.id)}
+              color="primary"
+            />,
+            <GridActionsCellItem
+              icon={<CancelIcon />}
+              label="Cancel"
+              className={classes.textPrimary}
+              onClick={handleCancelClick(params.id)}
+              color="inherit"
+            />,
+          ];
+        }
+        return [
+          <GridActionsCellItem
+            icon={<EditIcon />}
+            label="Edit"
+            className={classes.textPrimary}
+            onClick={handleEditClick(params.id)}
+            color="inherit"
+          />,
+          <GridActionsCellItem
+            icon={<DeleteIcon />}
+            label="Delete"
+            onClick={handleDeleteClick(params.id)}
+            color="inherit"
+          />,
+        ];
+      },
+    },
+  ];
+
   const { loading, error, data } = useQuery(GET_COMMANDS_AND_TOOLS);
+  //const apiRef = useGridApiRef();
+  //console.log(apiRef);
 
   if (loading) return <p>Loading ...</p>;
   if (error) return <p>`Error! ${error}`</p>;
@@ -98,14 +249,20 @@ export default function ASToolCommands() {
   //console.log(rows);
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
+    <div style={{ height: 500, width: "100%" }}>
+      <DataGridPro
         rows={viewObjArray}
         columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        disableSelectionOnClick
+        apiRef={apiRef}
+        editMode="row"
+        onRowEditStart={handleRowEditStart}
+        onRowEditStop={handleRowEditStop}
+        components={{
+          Toolbar: EditToolbar,
+        }}
+        componentsProps={{
+          toolbar: { apiRef },
+        }}
       />
     </div>
   );
