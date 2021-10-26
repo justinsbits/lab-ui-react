@@ -7,7 +7,7 @@ export default class AuthenticationService {
       .then((userCredential) => {
         // Signed in
         //const user = userCredential.user;
-        alert(`User: ${userCredential.user.email} logged in!`);
+        // alert(`User: ${userCredential.user.email} logged in!`);
         // ...
       })
       .catch((error) => {
@@ -22,7 +22,7 @@ export default class AuthenticationService {
     auth
       .signOut()
       .then(() => {
-        alert(`User logged out!`);
+        //alert(`User logged out!`);
         // ...
       })
       .catch((error) => {
