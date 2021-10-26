@@ -36,7 +36,9 @@ const useStyles = makeStyles(
   { defaultTheme }
 );
 
-const GET_COMMANDS_AND_TOOLS = gql`
+//const ADD_TOOL_AND_COMMAND = gql``;
+
+const GET_TOOLS_AND_COMMANDS = gql`
   {
     tool {
       id
@@ -87,7 +89,7 @@ function EditToolbar(props: EditToolbarProps) {
   const { apiRef } = props;
 
   const handleClick = () => {
-    const id = 2; //randomId();
+    const id = apiRef.current.getRowsCount() + 1;
     apiRef.current.updateRows([{ id, isNew: true }]);
     apiRef.current.setRowMode(id, "edit");
     // Wait for the grid to render with the new row
@@ -95,7 +97,7 @@ function EditToolbar(props: EditToolbarProps) {
       apiRef.current.scrollToIndexes({
         rowIndex: apiRef.current.getRowsCount() - 1,
       });
-      apiRef.current.setCellFocus(id, "name");
+      apiRef.current.setCellFocus(id, "Tool.Name");
     });
   };
 
@@ -167,12 +169,14 @@ export default function ASToolCommands() {
     {
       field: "Tool.Name",
       headerName: "Tool Name",
+      type: "string",
       width: 200,
       editable: true,
     },
     {
       field: "Tool.Decription",
       headerName: "Description",
+      type: "string",
       width: 200,
       hide: true,
     },
@@ -186,12 +190,14 @@ export default function ASToolCommands() {
     {
       field: "Tool.Command.HowTo",
       headerName: "Command Description",
+      type: "string",
       width: 400,
       editable: true,
     },
     {
       field: "Tool.Command.CommandLine",
       headerName: "Command",
+      type: "string",
       width: 600,
       editable: true,
     },
@@ -237,12 +243,14 @@ export default function ASToolCommands() {
     },
   ];
 
-  const { loading, error, data } = useQuery(GET_COMMANDS_AND_TOOLS);
-  //const apiRef = useGridApiRef();
-  //console.log(apiRef);
+  const { loading, error, data } = useQuery(GET_TOOLS_AND_COMMANDS);
+  //const [addToolAndCo, { data, loading, error }] = useMutation(ADD_TOOL_AND_COMMAND);
 
   if (loading) return <p>Loading ...</p>;
-  if (error) return <p>`Error! ${error}`</p>;
+  if (error) {
+    console.error(error);
+    throw error;
+  }
 
   let viewObjArray = apiCmdToolsToViewObj(data);
   console.log(viewObjArray);
